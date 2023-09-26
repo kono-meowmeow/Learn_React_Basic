@@ -7,6 +7,7 @@ import React from 'react';
 // コンポーネントは必ずreturn()を返す
 // return()の中身は一つのタグで囲わないといけない
 const App = () => {
+  const onClickButton = () => alert();
   return (
     // JSX記法において、return()の中身は一つのタグで囲わないといけない
     // とはいえ、divタグ等を無駄に使うと必要のないものがレンダリングされる
@@ -15,6 +16,9 @@ const App = () => {
     <>
       <h1>こんにちは！</h1>
       <p>お元気ですか？</p>
+      {/* イベントはキャメルケースで書く ex:onClick */}
+      {/* 波括弧の中はJavaScriptの関数を書く */}
+      <button onClick={onClickButton}>ボタン</button>
     </>
   );
 };
