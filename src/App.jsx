@@ -1,6 +1,7 @@
 // ファイルの拡張子を.jsxにすることで、コンポーネントであることがわかりやすくなる
 import React from 'react';
 import ColorfulMessage from './components/ColorfulMessage';
+import ChildrenMessage from './components/ChildrenMessage';
 
 // コンポーネントの作成
 // コンポーネント名は大文字で始める
@@ -34,11 +35,20 @@ const App = () => {
       <h1 style={{ color: 'red' }}>こんにちは！</h1>
       {/* 下記のようにして、styleを与えることもできる */}
       <p style={contentStyle}>お元気ですか？</p>
+      <p style={contentLedyStyle}>元気です！</p>
+      <hr />
       {/* 下記のcolorとmessageがprops */}
       <ColorfulMessage color="black" message="お元気ですか〜w" />
-      <p style={contentLedyStyle}>元気です！</p>
-      {/* こちらもpropsを使って書いてみる */}
       <ColorfulMessage color="red" message="元気です〜w" />
+      <hr />
+      {/* ちょっと応用的なpropsの渡し方 */}
+      {/* props.childrenを使って、文章を渡す */}
+      <ChildrenMessage color="green">
+        元気ですか？笑
+      </ChildrenMessage>
+      <ChildrenMessage color="orange">
+        超元気です！笑笑
+      </ChildrenMessage>
       {/* イベントはキャメルケースで書く ex:onClick */}
       {/* 波括弧の中はJavaScriptの関数を書く */}
       <button onClick={onClickButton}>ボタン</button>
