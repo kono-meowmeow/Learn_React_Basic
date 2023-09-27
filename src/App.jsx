@@ -1,5 +1,5 @@
 // ファイルの拡張子を.jsxにすることで、コンポーネントであることがわかりやすくなる
-import React from 'react';
+import React, { useState } from 'react';
 import ColorfulMessage from './components/ColorfulMessage';
 import ChildrenMessage from './components/ChildrenMessage';
 
@@ -9,8 +9,13 @@ import ChildrenMessage from './components/ChildrenMessage';
 // コンポーネントは必ずreturn()を返す
 // return()の中身は一つのタグで囲わないといけない
 // propsはコンポーネントに渡す引数のようなもの
+// stateは各コンポーネントが持つ状態のようなもの。stateが変わると、コンポーネントが再レンダリングされる
 const App = () => {
-  const onClickButton = () => alert();
+  // クリックされたらnumが1増える関数
+  const onClickCountUp = () => {
+    // numの値を1増やす
+    setNum(num + 1);
+  };
 
   // 変数の中でstyleを定義することもできる
   const contentStyle = {
@@ -23,6 +28,14 @@ const App = () => {
     color: 'pink',
     fontSize: '18px'
   };
+
+  // stateの定義
+  // useState()の中には初期値を入れる
+  // useState()は配列を返す
+  // その配列の1つ目の要素はstateの値(変数)
+  // その配列の2つ目の要素はstateを変更する関数(更新関数)
+  // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
+  const [num, setNum] = useState(0);
 
   return (
     // JSX記法において、return()の中身は一つのタグで囲わないといけない
@@ -49,9 +62,11 @@ const App = () => {
       <ChildrenMessage color="orange">
         超元気です！笑笑
       </ChildrenMessage>
+      <hr />
       {/* イベントはキャメルケースで書く ex:onClick */}
       {/* 波括弧の中はJavaScriptの関数を書く */}
-      <button onClick={onClickButton}>ボタン</button>
+      <button onClick={onClickCountUp}>カウントアップ</button>
+      <p>{num}</p>
     </>
   );
 };
