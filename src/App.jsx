@@ -11,10 +11,25 @@ import ChildrenMessage from './components/ChildrenMessage';
 // propsはコンポーネントに渡す引数のようなもの
 // stateは各コンポーネントが持つ状態のようなもの。stateが変わると、コンポーネントが再レンダリングされる
 const App = () => {
+  // stateの定義
+  // useState()の中には初期値を入れる
+  // useState()は配列を返す
+  // その配列の1つ目の要素はstateの値(変数)
+  // その配列の2つ目の要素はstateを変更する関数(更新関数)
+  // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
+  const [num, setNum] = useState(0);
+  const [faceShowFlag, setFaceShowFlag] = useState(true);
+
   // クリックされたらnumが1増える関数
   const onClickCountUp = () => {
     // numの値を1増やす
     setNum(num + 1);
+  };
+
+  // クリックされたらtrue/falseが切り替わる関数
+  const onClickSwitchShowFlag = () => {
+    // 現在のstateの逆の値を返すことで、true/falseを切り替える
+    setFaceShowFlag(!faceShowFlag);
   };
 
   // 変数の中でstyleを定義することもできる
@@ -29,13 +44,6 @@ const App = () => {
     fontSize: '18px'
   };
 
-  // stateの定義
-  // useState()の中には初期値を入れる
-  // useState()は配列を返す
-  // その配列の1つ目の要素はstateの値(変数)
-  // その配列の2つ目の要素はstateを変更する関数(更新関数)
-  // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
-  const [num, setNum] = useState(0);
 
   return (
     // JSX記法において、return()の中身は一つのタグで囲わないといけない
@@ -67,6 +75,12 @@ const App = () => {
       {/* 波括弧の中はJavaScriptの関数を書く */}
       <button onClick={onClickCountUp}>カウントアップ</button>
       <p>{num}</p>
+      <hr />
+      <button onClick={onClickSwitchShowFlag}>on/off</button>
+      {/* 下記のようにすると、faceShowFlagがtrueの時だけ表示される */}
+      {/* true/falseに応じて表示/非表示を変えるには下記のようにするといい */}
+      {/* &&の左の要素がtrueの時に、右を返す */}
+      {faceShowFlag && <p>(๑╹ω╹๑ )</p>}
     </>
   );
 };
