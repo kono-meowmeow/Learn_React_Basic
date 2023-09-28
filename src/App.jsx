@@ -1,5 +1,5 @@
 // ファイルの拡張子を.jsxにすることで、コンポーネントであることがわかりやすくなる
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ColorfulMessage from './components/ColorfulMessage';
 import ChildrenMessage from './components/ChildrenMessage';
 
@@ -48,14 +48,34 @@ const App = () => {
   // }
 
   // そこで、下記のように書く
-  if (num > 0 && num % 3 === 0) {
-    // ||は左側がfalseのとき、右側を返す
-    faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
-  } else {
-    // &&は左側がtrueのとき、右側を返す
-    faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
-  }
+  // if (num > 0 && num % 3 === 0) {
+  //   // ||は左側がfalseのとき、右側を返す
+  //   faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
+  // } else {
+  //   // &&は左側がtrueのとき、右側を返す
+  //   faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
+  // }
   // しかし、このままだと上記のコードのせいで、onClickSwitchShowFlag関数が機能しなくなる
+  // そこで、useEffect()を使う
+  useEffect(() => {
+    console.log("useEffect");
+  }, []); // 第二引数には、配列をとる。空の配列を渡すと、最初の一回のレンダリング時だけ実行される(再レンダリング時には実行されない)
+
+  useEffect(() => {
+    console.log("useEffect2");
+  }, [num]); // 第二引数にnumを渡すと、numが変更されたときだけ実行される
+
+  // 下記のように書くと、onClickSwitchShowFlag関数も機能する
+  // なぜなら、下記のコードはnumが変更されたときだけ実行されるから
+  useEffect(() => {
+    if (num > 0 && num % 3 === 0) {
+      // ||は左側がfalseのとき、右側を返す
+      faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
+    } else {
+      // &&は左側がtrueのとき、右側を返す
+      faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
+    }
+  }, [num]); // 第二引数にnumを渡すと、numが変更されたときだけ実行される
 
   // 変数の中でstyleを定義することもできる
   const contentStyle = {
