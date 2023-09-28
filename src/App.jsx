@@ -1,5 +1,5 @@
 // ファイルの拡張子を.jsxにすることで、コンポーネントであることがわかりやすくなる
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ColorfulMessage from './components/ColorfulMessage';
 import ChildrenMessage from './components/ChildrenMessage';
 
@@ -11,11 +11,71 @@ import ChildrenMessage from './components/ChildrenMessage';
 // propsはコンポーネントに渡す引数のようなもの
 // stateは各コンポーネントが持つ状態のようなもの。stateが変わると、コンポーネントが再レンダリングされる
 const App = () => {
+  // reactが再レンダリングされると、下記のconsole.log()が実行される
+  // 再レンダリングされる条件は、下記の通り
+  // ・stateが変更されたとき
+  // ・propsが変更されたとき
+  // ・親コンポーネントが再レンダリングされたとき
+  console.log("最初");
+  // stateの定義
+  // useState()の中には初期値を入れる
+  // useState()は配列を返す
+  // その配列の1つ目の要素はstateの値(変数)
+  // その配列の2つ目の要素はstateを変更する関数(更新関数)
+  // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
+  const [num, setNum] = useState(0);
+  const [faceShowFlag, setFaceShowFlag] = useState(false);
+
   // クリックされたらnumが1増える関数
   const onClickCountUp = () => {
     // numの値を1増やす
     setNum(num + 1);
   };
+
+  // クリックされたらtrue/falseが切り替わる関数
+  const onClickSwitchShowFlag = () => {
+    // 現在のstateの逆の値を返すことで、true/falseを切り替える
+    setFaceShowFlag(!faceShowFlag);
+  };
+
+  // numが3の倍数のときだけ、faceShowFlagがtrueにしたい
+
+  // 下記のコードは再レンダリングが起きすぎてエラーになる
+  // if (num % 3 === 0) {
+  //   setFaceShowFlag(true); // ここでstateが変更されて、Appが再レンダリングされる(無限ループになる)
+  // } else {
+  //   setFaceShowFlag(false);
+  // }
+
+  // そこで、下記のように書く
+  // if (num > 0 && num % 3 === 0) {
+  //   // ||は左側がfalseのとき、右側を返す
+  //   faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
+  // } else {
+  //   // &&は左側がtrueのとき、右側を返す
+  //   faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
+  // }
+  // しかし、このままだと上記のコードのせいで、onClickSwitchShowFlag関数が機能しなくなる
+  // そこで、useEffect()を使う
+  useEffect(() => {
+    console.log("useEffect");
+  }, []); // 第二引数には、配列をとる。空の配列を渡すと、最初の一回のレンダリング時だけ実行される(再レンダリング時には実行されない)
+
+  useEffect(() => {
+    console.log("useEffect2");
+  }, [num]); // 第二引数にnumを渡すと、numが変更されたときだけ実行される
+
+  // 下記のように書くと、onClickSwitchShowFlag関数も機能する
+  // なぜなら、下記のコードはnumが変更されたときだけ実行されるから
+  useEffect(() => {
+    if (num > 0 && num % 3 === 0) {
+      // ||は左側がfalseのとき、右側を返す
+      faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
+    } else {
+      // &&は左側がtrueのとき、右側を返す
+      faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
+    }
+  }, [num]); // 第二引数にnumを渡すと、numが変更されたときだけ実行される
 
   // 変数の中でstyleを定義することもできる
   const contentStyle = {
@@ -29,13 +89,6 @@ const App = () => {
     fontSize: '18px'
   };
 
-  // stateの定義
-  // useState()の中には初期値を入れる
-  // useState()は配列を返す
-  // その配列の1つ目の要素はstateの値(変数)
-  // その配列の2つ目の要素はstateを変更する関数(更新関数)
-  // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
-  const [num, setNum] = useState(0);
 
   return (
     // JSX記法において、return()の中身は一つのタグで囲わないといけない
@@ -67,6 +120,12 @@ const App = () => {
       {/* 波括弧の中はJavaScriptの関数を書く */}
       <button onClick={onClickCountUp}>カウントアップ</button>
       <p>{num}</p>
+      <hr />
+      <button onClick={onClickSwitchShowFlag}>on/off</button>
+      {/* 下記のようにすると、faceShowFlagがtrueの時だけ表示される */}
+      {/* true/falseに応じて表示/非表示を変えるには下記のようにするといい */}
+      {/* &&の左の要素がtrueの時に、右を返す */}
+      {faceShowFlag && <p>(๑╹ω╹๑ )</p>}
     </>
   );
 };
