@@ -11,6 +11,12 @@ import ChildrenMessage from './components/ChildrenMessage';
 // propsはコンポーネントに渡す引数のようなもの
 // stateは各コンポーネントが持つ状態のようなもの。stateが変わると、コンポーネントが再レンダリングされる
 const App = () => {
+  // reactが再レンダリングされると、下記のconsole.log()が実行される
+  // 再レンダリングされる条件は、下記の通り
+  // ・stateが変更されたとき
+  // ・propsが変更されたとき
+  // ・親コンポーネントが再レンダリングされたとき
+  console.log("最初");
   // stateの定義
   // useState()の中には初期値を入れる
   // useState()は配列を返す
