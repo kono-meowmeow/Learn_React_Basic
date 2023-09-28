@@ -24,7 +24,7 @@ const App = () => {
   // その配列の2つ目の要素はstateを変更する関数(更新関数)
   // その配列の2つ目の要素は、「set一つ目の変数名」という名前にするのが一般的
   const [num, setNum] = useState(0);
-  const [faceShowFlag, setFaceShowFlag] = useState(true);
+  const [faceShowFlag, setFaceShowFlag] = useState(false);
 
   // クリックされたらnumが1増える関数
   const onClickCountUp = () => {
@@ -37,6 +37,25 @@ const App = () => {
     // 現在のstateの逆の値を返すことで、true/falseを切り替える
     setFaceShowFlag(!faceShowFlag);
   };
+
+  // numが3の倍数のときだけ、faceShowFlagがtrueにしたい
+
+  // 下記のコードは再レンダリングが起きすぎてエラーになる
+  // if (num % 3 === 0) {
+  //   setFaceShowFlag(true); // ここでstateが変更されて、Appが再レンダリングされる(無限ループになる)
+  // } else {
+  //   setFaceShowFlag(false);
+  // }
+
+  // そこで、下記のように書く
+  if (num > 0 && num % 3 === 0) {
+    // ||は左側がfalseのとき、右側を返す
+    faceShowFlag || setFaceShowFlag(true); // faceShowFlagがfalseのときだけ、trueにする
+  } else {
+    // &&は左側がtrueのとき、右側を返す
+    faceShowFlag && setFaceShowFlag(false); // faceShowFlagがtrueのときだけ、falseにする
+  }
+  // しかし、このままだと上記のコードのせいで、onClickSwitchShowFlag関数が機能しなくなる
 
   // 変数の中でstyleを定義することもできる
   const contentStyle = {
