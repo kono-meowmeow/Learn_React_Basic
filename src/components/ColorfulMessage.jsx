@@ -2,7 +2,10 @@ import React from 'react';
 
 // propsで条件を渡して、動的に変わるようにする
 // 引数名はなんでもいいが、propsが一般的
-const ColorfulMessage = (props) => {
+// 下記の書き方でもexportできる
+// exportを使うと、import時にexportする関数と同じ名前でimportしないといけない
+// したがって、import時にtypoをするとエラーになる
+export const ColorfulMessage = (props) => {
   // 親コンポーネントが再レンダリングされると、子コンポーネントも再レンダリングされる
   // App.jsxが再レンダリングされるたびに、ColorfulMessage.jsxも再レンダリングされる
   // 再レンダリングされると、下記のconsole.logが表示される
@@ -21,4 +24,7 @@ const ColorfulMessage = (props) => {
   );
 }
 
-export default ColorfulMessage;
+// 下記のように書くと、import時に{}をつけなくても良くなる(default export)
+// default exportは、import時にimportする関数に任意の名前をつけられる
+// ただし、default exportは1ファイルに1つしか書けない
+// export default ColorfulMessage;
