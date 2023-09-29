@@ -1,6 +1,7 @@
 // ファイルの拡張子を.jsxにすることで、コンポーネントであることがわかりやすくなる
 import React, { useEffect, useState } from 'react';
-import ColorfulMessage from './components/ColorfulMessage';
+// default export 出ないときは、{}をつける(分割代入)
+import { ColorfulMessage } from './components/ColorfulMessage';
 import ChildrenMessage from './components/ChildrenMessage';
 
 // コンポーネントの作成
